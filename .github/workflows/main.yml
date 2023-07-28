@@ -26,4 +26,4 @@ jobs:
         draft: false
         files: |
           out/*.AppImage*
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        repo_token: ${{ secrets.REL_TOKEN }}
