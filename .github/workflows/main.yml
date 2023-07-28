@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron: "0 12 * * 0"
+      
+jobs:
+  AppImage:
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Create AppImage
+      run: |
+           sudo apt-get -y install desktop-file-utils
+           wget "https://raw.githubusercontent.com/AppImage/pkg2appimage/master/pkg2appimage"
+           bash -ex pkg2appimage Wireshark
+    - name: Release
+      uses: marvinpinto/action-automatic-releases@latest
+      with:
+        title: AppImage
+        automatic_release_tag: stable
+        prerelease: false
+        draft: false
+        files: |
+          out/*.AppImage*
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
